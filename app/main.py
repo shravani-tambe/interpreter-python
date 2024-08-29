@@ -1,7 +1,6 @@
 import sys
 
 def main():
-    # You can use print statements as follows for debugging, they'll be visible when running tests.
     print("Logs from your program will appear here!", file=sys.stderr)
 
     if len(sys.argv) < 3:
@@ -21,8 +20,16 @@ def main():
     if file_contents:
         raise NotImplementedError("Scanner not implemented")
     else:
-        print("EOF  null") # Placeholder, remove this line when implementing the scanner
+        print("EOF  null")
+        
+        
+    for i in file_contents: 
+        if i=="(": 
+            print("LEFT PARANTHESE ( NULL")
+        if i==")": 
+            print("LEFT PARANTHESE ) NULL")
 
+print("EOF Null")
 
 if __name__ == "__main__":
     main()
