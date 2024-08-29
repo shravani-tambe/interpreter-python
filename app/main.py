@@ -28,8 +28,8 @@ def main():
             print("LEFT PARANTHESE ( NULL")
         if i==")": 
             print("LEFT PARANTHESE ) NULL")
-
-print("EOF Null")
+            
+    print("EOF Null")
 
 if __name__ == "__main__":
     main()
