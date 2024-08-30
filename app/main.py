@@ -26,7 +26,6 @@ def main():
     else:
         print("EOF  null")  # Handle empty file case
     
-    print("EOF  null")  # Ensure EOF is printed at the end
 
 if __name__ == "__main__":
     main()
