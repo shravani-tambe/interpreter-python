@@ -23,9 +23,8 @@ def main():
                 print("LEFT_PAREN ( null")
             elif c == ")":
                 print("RIGHT_PAREN ) null")
-    else:
-        print("EOF  null")  # Handle empty file case
     
+    print("EOF  null")
 
 if __name__ == "__main__":
     main()
