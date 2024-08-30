@@ -23,12 +23,9 @@ def main():
                 print("LEFT_PAREN ( null")
             elif c == ")":
                 print("RIGHT_PAREN ) null")
-    
-    if file_contents:
-        for i in file_contents:
-            if i == "{":
+            elif c == "{":
                 print("LEFT_BRACE { null")
-            elif i == "}":
+            elif c == "}":
                 print("RIGHT_BRACE } null")
     
     print("EOF  null")
