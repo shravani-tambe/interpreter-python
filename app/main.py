@@ -18,15 +18,23 @@ def main():
         file_contents = file.read()
     
     if file_contents:
-        for c in file_contents:
-            if c == "(":
+        for i in file_contents:
+            if i == "(":
                 print("LEFT_PAREN ( null")
-            elif c == ")":
+            elif i == ")":
                 print("RIGHT_PAREN ) null")
-            elif c == "{":
+            elif i == "{":
                 print("LEFT_BRACE { null")
-            elif c == "}":
+            elif i == "}":
                 print("RIGHT_BRACE } null")
+            elif i  == "*": 
+                print("STAR * null")
+            elif i == ".": 
+                print("DOT . null")
+            elif i == ",": 
+                print("COMMA , null")
+            elif i == "+": 
+                print("PLUS + null")
     
     print("EOF  null")
 
