@@ -37,7 +37,8 @@ def main():
                 print("PLUS + null")
             elif i == "-": 
                 print("MINUS - null")
-    
+            elif i == ";": 
+                print("SEMICOLON ; null")
     print("EOF  null")
 
 if __name__ == "__main__":
