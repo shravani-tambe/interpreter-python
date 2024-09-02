@@ -41,10 +41,10 @@ def main():
                 print("MINUS - null")
             elif i == ";": 
                 print("SEMICOLON ; null")
-            elif i == "=":
-                print("EQUAL = null")
             elif i == "==": 
                 print("EQUAL_EQUAL == null")
+            elif i == "=":
+                print("EQUAL = null")
             else:
                 error = True
                 line_number = file_contents.count("\n", 0, file_contents.find(i)) + 1
