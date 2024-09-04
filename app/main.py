@@ -77,8 +77,9 @@ def main():
                 toks.append(f"{char_name} {i} null")
             ptr += 1 
         
-        toks.append("EOF null")  
+        toks.append("EOF  null")  
         print("\n".join(toks))  
+        
         if errs:
             print("\n".join(errs), file=sys.stderr)
     
