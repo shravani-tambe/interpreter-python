@@ -22,12 +22,12 @@ def main():
     errs = []
     
     if file_contents:
-        line_no=1
-        ptr=0
+        line_no = 1
+        ptr = 0
         
-        while ptr<len(file_contents):
-            i=file_contents[ptr]
-            char_name= " "
+        while ptr < len(file_contents):
+            i = file_contents[ptr]
+            char_name = " "
             if i == "(":
                 print("LEFT_PAREN ( null")
                 char_name = "LEFT_PAREN"
@@ -63,23 +63,26 @@ def main():
                 if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "=":
                     char_name = "EQUAL_EQUAL"
                     i = "=="
+                    ptr += 1 
                 else:
                     char_name = "EQUAL"
             elif i == "\n":
                 line_no += 1
+                ptr += 1  
                 continue
             else:
                 errs.append(f"[line {line_no}] Error: Unexpected character: {i}")
                 error = True
-                ptr+=1
+                ptr += 1
                 continue
-        ptr += len(i)
-        toks.append(f"{char_name} {i} null")
+            
+            ptr += 1 
+            toks.append(f"{char_name} {i} null")
         
-        toks.append("EOF  null") 
+        toks.append("EOF  null")
         print("\n".join(errs), file=sys.stderr)
-        print("\n".join(toks))       
-        
+        print("\n".join(toks))
+    
     print("EOF  null")
     if error:
         exit(65)
