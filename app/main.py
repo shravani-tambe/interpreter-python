@@ -75,9 +75,17 @@ def main():
             
             if char_name:  
                 toks.append(f"{char_name} {i} null")
-            ptr += 1 
+            ptr += 1
         
-        toks.append("EOF  null")  
+        if not toks:
+            toks.append("EOF  null")  
+            
+        if not any(errs):
+            toks.append("EOF  null")  
+        else:
+            if "EOF  null" not in toks:
+                toks.append("EOF  null")
+                
         print("\n".join(toks))  
         
         if errs:
