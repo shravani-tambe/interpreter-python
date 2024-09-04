@@ -14,9 +14,13 @@ def main():
         print(f"Unknown command: {command}", file=sys.stderr)
         exit(1)
     
-    with open(filename) as file:
-        file_contents = file.read()
-        
+    try:
+        with open(filename) as file:
+            file_contents = file.read()
+    except FileNotFoundError:
+        print(f"Error: File '{filename}' not found.", file=sys.stderr)
+        exit(1)
+    
     error = False
     toks = []
     errs = []
@@ -37,7 +41,7 @@ def main():
                 char_name = "LEFT_BRACE"
             elif i == "}":
                 char_name = "RIGHT_BRACE"
-            elif i  == "*": 
+            elif i == "*": 
                 char_name = "STAR"
             elif i == ".": 
                 char_name = "DOT"
@@ -60,6 +64,9 @@ def main():
                 line_no += 1
                 ptr += 1  
                 continue
+            elif i.isspace():
+                ptr += 1
+                continue
             else:
                 errs.append(f"[line {line_no}] Error: Unexpected character: {i}")
                 error = True
@@ -67,10 +74,10 @@ def main():
                 continue
             
             if char_name:  
-                toks.append(f"{char_name} {i} null")
+                toks.append(f"{char_name} '{i}' null")
             ptr += 1 
         
-        toks.append("EOF  null")  
+        toks.append("EOF 'null'")  
         print("\n".join(toks))  
         if errs:
             print("\n".join(errs), file=sys.stderr)
