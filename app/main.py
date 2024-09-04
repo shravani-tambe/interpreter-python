@@ -53,6 +53,9 @@ def main():
                 char_name = "MINUS"
             elif i == ";": 
                 char_name = "SEMICOLON"
+                
+            #exceptional cases and error handling
+            
             elif i == "=": 
                 if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "=":
                     char_name = "EQUAL_EQUAL"
@@ -60,6 +63,7 @@ def main():
                     ptr += 1  
                 else:
                     char_name = "EQUAL"
+                    
             elif i == "!":
                 if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "=":
                     char_name = "BANG_EQUAL"
@@ -67,6 +71,24 @@ def main():
                     ptr += 1  
                 else:
                     char_name = "BANG"
+                    
+            #relational operators
+                    
+            elif i == "<":
+                if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "=":
+                    char_name = "LESS_EQUAL"
+                    i = "<="  
+                    ptr += 1  
+                else:
+                    char_name = "LESS"
+            elif i == ">":
+                if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "=":
+                    char_name = "GREATER_EQUAL"
+                    i = ">="  
+                    ptr += 1  
+                else:
+                    char_name = "GREATER"
+    
             elif i == "\n":
                 line_no += 1
                 ptr += 1  
