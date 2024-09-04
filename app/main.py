@@ -60,6 +60,13 @@ def main():
                     ptr += 1  
                 else:
                     char_name = "EQUAL"
+            elif i == "!":
+                if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "=":
+                    char_name = "BANG_EQUAL"
+                    i = "!="  
+                    ptr += 1  
+                else:
+                    char_name = "BANG"
             elif i == "\n":
                 line_no += 1
                 ptr += 1  
