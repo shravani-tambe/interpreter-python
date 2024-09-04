@@ -83,7 +83,6 @@ def main():
         print("\n".join(errs), file=sys.stderr)
         print("\n".join(toks))
     
-    print("EOF  null")
     if error:
         exit(65)
     else:
