@@ -89,6 +89,27 @@ def main():
                     continue
                 else:
                     char_name = "SLASH"
+            elif i == "\"":  
+                string_literal = "\""
+                ptr += 1
+                while ptr < len(file_contents):
+                    if file_contents[ptr] == "\"":  
+                        string_literal += "\""
+                        break
+                    elif file_contents[ptr] == "\\" and ptr + 1 < len(file_contents) and file_contents[ptr + 1] == "\"":
+                        string_literal += "\\\""  
+                        ptr += 2
+                    else:
+                        string_literal += file_contents[ptr]
+                        ptr += 1
+                
+                if ptr < len(file_contents) and file_contents[ptr] == "\"":
+                    toks.append(f"STRING {string_literal} null")
+                else:
+                    errs.append(f"[line {line_no}] Error: Unterminated string.")
+                    error = True
+                ptr += 1  
+                continue
             elif i == "\n":
                 line_no += 1
                 ptr += 1  
