@@ -47,7 +47,7 @@ def main():
                 char_name = "DOT"
             elif i == ",": 
                 char_name = "COMMA"
-            elif i == "+": 
+            elif i == "+":  # Handle the PLUS operator
                 char_name = "PLUS"
             elif i == "-": 
                 char_name = "MINUS"
