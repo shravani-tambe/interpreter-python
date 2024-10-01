@@ -86,28 +86,29 @@ def main():
                     ptr += 2  
                     while ptr < len(file_contents) and file_contents[ptr] != "\n":
                         ptr += 1
+                    line_no += 1
                     continue
                 else:
                     char_name = "SLASH"
             elif i == '"':
-                start = ptr
-                ptr += 1
+                # String literal handling
                 string_literal = []
+                ptr += 1
                 
                 while ptr < len(file_contents) and file_contents[ptr] != '"':
-                    if file_contents[ptr] == "\n":
+                    if file_contents[ptr] == "\n":  # Handle multi-line strings
                         line_no += 1
                     string_literal.append(file_contents[ptr])
                     ptr += 1
                 
-                if ptr == len(file_contents):  
+                if ptr == len(file_contents):  # Unterminated string
                     errs.append(f"[line {line_no}] Error: Unterminated string.")
                     error = True
                     break
                 else:
-                    ptr += 1  # Move past the closing "
+                    ptr += 1  # Move past the closing quote
                     string_value = "".join(string_literal)
-                    toks.append(f'STRING "{string_value}" null')
+                    toks.append(f'STRING "{string_value}" {string_value}')
                 continue
             elif i == "\n":
                 line_no += 1
