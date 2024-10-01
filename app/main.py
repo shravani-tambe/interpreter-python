@@ -24,6 +24,8 @@ def main():
     error = False
     toks = []
     errs = []
+    
+    # building the lexer
 
     if file_contents:
         line_no = 1
@@ -33,6 +35,22 @@ def main():
             i = file_contents[ptr]
             char_name = None
 
+            if i.isdigit():
+                num_start = ptr
+                while ptr < len(file_contents) and file_contents[ptr].isdigit():
+                    ptr += 1
+                if ptr < len(file_contents) and file_contents[ptr] == '.':
+                    ptr += 1  
+                    if ptr < len(file_contents) and file_contents[ptr].isdigit():
+                        while ptr < len(file_contents) and file_contents[ptr].isdigit():
+                            ptr += 1
+                    else:
+                        errs.append(f"[line {line_no}] Error: Invalid number format.")
+                        error = True
+                number_literal = file_contents[num_start:ptr]
+                toks.append(f'NUMBER {number_literal} {float(number_literal)}')
+                continue  
+            
             if i == "(":
                 char_name = "LEFT_PAREN"
             elif i == ")":
@@ -96,15 +114,15 @@ def main():
             elif i.isspace():
                 ptr += 1
                 continue
-            elif i == '"':  # Handle string literals
+            elif i == '"':  
                 word = ""
-                ptr += 1  # Move past the opening quote
+                ptr += 1 
                 while ptr < len(file_contents) and file_contents[ptr] != '"':
                     if file_contents[ptr] == '\n':
                         line_no += 1
                     word += file_contents[ptr]
                     ptr += 1
-                if ptr == len(file_contents):  # End of file without closing quote
+                if ptr == len(file_contents):  
                     errs.append(f"[line {line_no}] Error: Unterminated string.")
                     error = True
                 else:
