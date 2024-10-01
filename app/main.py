@@ -1,5 +1,24 @@
 import sys
 
+reserved = {
+    "and": "AND",
+    "class": "CLASS",
+    "else": "ELSE",
+    "false": "FALSE",
+    "for": "FOR",
+    "fun": "FUN",
+    "if": "IF",
+    "nil": "NIL",
+    "or": "OR",
+    "print": "PRINT",
+    "return": "RETURN",
+    "super": "SUPER",
+    "this": "THIS",
+    "true": "TRUE",
+    "var": "VAR",
+    "while": "WHILE"
+}
+
 def main():
     print("Logs from your program will appear here!", file=sys.stderr)
 
@@ -25,8 +44,6 @@ def main():
     toks = []
     errs = []
     
-    # building the lexer
-
     if file_contents:
         line_no = 1
         ptr = 0
@@ -40,16 +57,28 @@ def main():
                 while ptr < len(file_contents) and file_contents[ptr].isdigit():
                     ptr += 1
                 if ptr < len(file_contents) and file_contents[ptr] == '.':
-                    ptr += 1  
+                    ptr += 1 
                     if ptr < len(file_contents) and file_contents[ptr].isdigit():
                         while ptr < len(file_contents) and file_contents[ptr].isdigit():
                             ptr += 1
                     else:
                         errs.append(f"[line {line_no}] Error: Invalid number format.")
                         error = True
-                num_literal = file_contents[num:ptr]
-                toks.append(f'NUMBER {num_literal} {float(num_literal)}')
+                number_literal = file_contents[num:ptr]
+                toks.append(f'NUMBER {number_literal} {float(number_literal)}')
                 continue  
+
+            if i.isalpha() or i == "_":
+                id_start = ptr
+                while ptr < len(file_contents) and (file_contents[ptr].isalnum() or file_contents[ptr] == "_"):
+                    ptr += 1
+                identifier = file_contents[id_start:ptr]
+
+                if identifier in reserved:
+                    toks.append(f'{reserved[identifier]} {identifier} null')
+                else:
+                    toks.append(f'IDENTIFIER {identifier} null')
+                continue 
             
             if i == "(":
                 char_name = "LEFT_PAREN"
