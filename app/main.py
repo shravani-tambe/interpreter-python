@@ -36,7 +36,7 @@ def main():
             char_name = None
 
             if i.isdigit():
-                num_start = ptr
+                num = ptr
                 while ptr < len(file_contents) and file_contents[ptr].isdigit():
                     ptr += 1
                 if ptr < len(file_contents) and file_contents[ptr] == '.':
@@ -47,8 +47,8 @@ def main():
                     else:
                         errs.append(f"[line {line_no}] Error: Invalid number format.")
                         error = True
-                number_literal = file_contents[num_start:ptr]
-                toks.append(f'NUMBER {number_literal} {float(number_literal)}')
+                num_literal = file_contents[num:ptr]
+                toks.append(f'NUMBER {num_literal} {float(num_literal)}')
                 continue  
             
             if i == "(":
