@@ -47,7 +47,7 @@ def main():
                 char_name = "DOT"
             elif i == ",": 
                 char_name = "COMMA"
-            elif i == "+":  
+            elif i == "+":  # Handle the PLUS operator
                 char_name = "PLUS"
             elif i == "-": 
                 char_name = "MINUS"
@@ -89,18 +89,18 @@ def main():
                     continue
                 else:
                     char_name = "SLASH"
-            elif i == '"':  
-                start_line = line_no  
+            elif i == '"':  # Handle string literals
+                start_line = line_no  # Track the line where the string starts
                 ptr += 1
                 string_literal = ""
                 
                 while ptr < len(file_contents) and file_contents[ptr] != '"':
-                    if file_contents[ptr] == "\n": 
+                    if file_contents[ptr] == "\n":  # Handle multi-line strings
                         line_no += 1
                     string_literal += file_contents[ptr]
                     ptr += 1
                 
-                if ptr >= len(file_contents): 
+                if ptr >= len(file_contents):  # Unterminated string
                     errs.append(f"[line {start_line}] Error: Unterminated string.")
                     error = True
                     break
