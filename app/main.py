@@ -95,7 +95,7 @@ def main():
                     ptr += 2  
                     while ptr < len(file_contents) and file_contents[ptr] != "\n":
                         ptr += 1
-                    line_no += 1
+                    line_no += 1  # Increment line number after the comment
                     continue
                 else:
                     char_name = "SLASH"
