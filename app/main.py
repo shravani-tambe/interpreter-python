@@ -90,40 +90,39 @@ def main():
                     continue
                 else:
                     char_name = "SLASH"
-            elif i == '"':
-                # String literal handling
-                string_literal = []
-                ptr += 1
-                
-                while ptr < len(file_contents) and file_contents[ptr] != '"':
-                    if file_contents[ptr] == "\n":  # Handle multi-line strings
-                        line_no += 1
-                    string_literal.append(file_contents[ptr])
-                    ptr += 1
-                
-                if ptr == len(file_contents):  # Unterminated string
-                    errs.append(f"[line {line_no}] Error: Unterminated string.")
-                    error = True
-                    break
-                else:
-                    ptr += 1  # Move past the closing quote
-                    string_value = "".join(string_literal)
-                    toks.append(f'STRING "{string_value}" {string_value}')
-                continue
             elif i == "\n":
                 line_no += 1
-                ptr += 1
+                ptr += 1  
                 continue
             elif i.isspace():
                 ptr += 1
                 continue
+            elif i == '"':
+                # String literal handling starts here
+                start_ptr = ptr
+                ptr += 1  # Move past the opening quote
+                string_literal = []
+                
+                while ptr < len(file_contents) and file_contents[ptr] != '"':
+                    if file_contents[ptr] == "\n":
+                        line_no += 1  # Count new lines within strings
+                    string_literal.append(file_contents[ptr])
+                    ptr += 1
+                
+                if ptr == len(file_contents):  # If we reached end of file without closing quote
+                    errs.append(f"[line {line_no}] Error: Unterminated string.")
+                    error = True
+                else:
+                    # Closing quote found, add token
+                    string_value = ''.join(string_literal)
+                    toks.append(f'STRING "{string_value}" {string_value}')
+                    ptr += 1  # Move past the closing quote
+                continue
             else:
                 errs.append(f"[line {line_no}] Error: Unexpected character: {i}")
                 error = True
-                ptr += 1
-                continue
             
-            if char_name:  
+            if char_name:
                 toks.append(f"{char_name} {i} null")
             ptr += 1 
         
