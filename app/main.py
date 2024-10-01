@@ -47,7 +47,7 @@ def main():
                 char_name = "DOT"
             elif i == ",": 
                 char_name = "COMMA"
-            elif i == "+":  # Handle the PLUS operator
+            elif i == "+": 
                 char_name = "PLUS"
             elif i == "-": 
                 char_name = "MINUS"
@@ -56,61 +56,62 @@ def main():
             elif i == "=": 
                 if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "=":
                     char_name = "EQUAL_EQUAL"
-                    i = "=="  
+                    i = "=="
                     ptr += 1  
                 else:
                     char_name = "EQUAL"
             elif i == "!":
                 if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "=":
                     char_name = "BANG_EQUAL"
-                    i = "!="  
+                    i = "!="
                     ptr += 1  
                 else:
                     char_name = "BANG"
             elif i == "<":
                 if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "=":
                     char_name = "LESS_EQUAL"
-                    i = "<="  
+                    i = "<="
                     ptr += 1  
                 else:
                     char_name = "LESS"
             elif i == ">":
                 if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "=":
                     char_name = "GREATER_EQUAL"
-                    i = ">="  
+                    i = ">="
                     ptr += 1  
                 else:
                     char_name = "GREATER"
             elif i == "/":
                 if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "/":
-                    ptr += 2 
+                    ptr += 2  
                     while ptr < len(file_contents) and file_contents[ptr] != "\n":
                         ptr += 1
                     continue
                 else:
                     char_name = "SLASH"
-            elif i == '"':  # Handle string literals
-                start_line = line_no  # Track the line where the string starts
+            elif i == '"':
+                start = ptr
                 ptr += 1
-                string_literal = ""
+                string_literal = []
                 
                 while ptr < len(file_contents) and file_contents[ptr] != '"':
-                    if file_contents[ptr] == "\n":  # Handle multi-line strings
+                    if file_contents[ptr] == "\n":
                         line_no += 1
-                    string_literal += file_contents[ptr]
+                    string_literal.append(file_contents[ptr])
                     ptr += 1
                 
-                if ptr >= len(file_contents):  # Unterminated string
-                    errs.append(f"[line {start_line}] Error: Unterminated string.")
+                if ptr == len(file_contents):  
+                    errs.append(f"[line {line_no}] Error: Unterminated string.")
                     error = True
                     break
                 else:
-                    ptr += 1  # Skip the closing "
-                    toks.append(f'STRING "{string_literal}" {string_literal}')
-            
+                    ptr += 1  # Move past the closing "
+                    string_value = "".join(string_literal)
+                    toks.append(f'STRING "{string_value}" null')
+                continue
             elif i == "\n":
                 line_no += 1
-                ptr += 1  
+                ptr += 1
                 continue
             elif i.isspace():
                 ptr += 1
