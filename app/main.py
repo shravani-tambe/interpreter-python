@@ -33,15 +33,6 @@ def main():
             i = file_contents[ptr]
             char_name = None  
             
-            if i == "\n":
-                line_no += 1  # Increment line number on newline
-                ptr += 1
-                continue
-            elif i.isspace():
-                ptr += 1
-                continue
-            
-            # Token recognition
             if i == "(":
                 char_name = "LEFT_PAREN"
             elif i == ")":
@@ -63,70 +54,68 @@ def main():
             elif i == ";": 
                 char_name = "SEMICOLON"
             elif i == "=": 
-                if ptr + 1 < len(file_contents) and file_contents[ptr + 1] == "=":
+                if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "=":
                     char_name = "EQUAL_EQUAL"
-                    i = "=="
+                    i = "=="  
                     ptr += 1  
                 else:
                     char_name = "EQUAL"
             elif i == "!":
-                if ptr + 1 < len(file_contents) and file_contents[ptr + 1] == "=":
+                if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "=":
                     char_name = "BANG_EQUAL"
-                    i = "!="
+                    i = "!="  
                     ptr += 1  
                 else:
                     char_name = "BANG"
             elif i == "<":
-                if ptr + 1 < len(file_contents) and file_contents[ptr + 1] == "=":
+                if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "=":
                     char_name = "LESS_EQUAL"
-                    i = "<="
+                    i = "<="  
                     ptr += 1  
                 else:
                     char_name = "LESS"
             elif i == ">":
-                if ptr + 1 < len(file_contents) and file_contents[ptr + 1] == "=":
+                if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "=":
                     char_name = "GREATER_EQUAL"
-                    i = ">="
+                    i = ">="  
                     ptr += 1  
                 else:
                     char_name = "GREATER"
             elif i == "/":
-                if ptr + 1 < len(file_contents) and file_contents[ptr + 1] == "/":
-                    ptr += 2  
+                if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "/":
+                    ptr += 2 
                     while ptr < len(file_contents) and file_contents[ptr] != "\n":
                         ptr += 1
-                    line_no += 1  # Increment line number after the comment
                     continue
                 else:
                     char_name = "SLASH"
-            elif i == '"':
-                # String literal handling
-                start_ptr = ptr
+            elif i == "\n":
+                line_no += 1
+                ptr += 1  
+                continue
+            elif i.isspace():
+                ptr += 1
+                continue
+            elif i == '"':  # Handle string literals
+                word = ""
                 ptr += 1  # Move past the opening quote
-                string_literal = []
-                
                 while ptr < len(file_contents) and file_contents[ptr] != '"':
-                    if file_contents[ptr] == "\n":
-                        line_no += 1  # Count new lines within strings
-                    string_literal.append(file_contents[ptr])
+                    if file_contents[ptr] == '\n':  # Count newlines within string
+                        line_no += 1
+                    word += file_contents[ptr]
                     ptr += 1
-                
-                if ptr == len(file_contents):  # If we reached end of file without closing quote
+                if ptr == len(file_contents):
                     errs.append(f"[line {line_no}] Error: Unterminated string.")
                     error = True
                 else:
-                    # Closing quote found, add token
-                    string_value = ''.join(string_literal)
-                    toks.append(f'STRING "{string_value}" {string_value}')
-                    ptr += 1  # Move past the closing quote
-                continue
+                    toks.append(f'STRING "{word}" {word}')
             else:
-                # Report unexpected characters with line number
                 errs.append(f"[line {line_no}] Error: Unexpected character: {i}")
                 error = True
             
-            if char_name:
+            if char_name:  
                 toks.append(f"{char_name} {i} null")
+            
             ptr += 1 
         
         toks.append("EOF  null")  
