@@ -33,6 +33,15 @@ def main():
             i = file_contents[ptr]
             char_name = None  
             
+            if i == "\n":
+                line_no += 1  # Increment line number on newline
+                ptr += 1
+                continue
+            elif i.isspace():
+                ptr += 1
+                continue
+            
+            # Token recognition
             if i == "(":
                 char_name = "LEFT_PAREN"
             elif i == ")":
@@ -54,35 +63,35 @@ def main():
             elif i == ";": 
                 char_name = "SEMICOLON"
             elif i == "=": 
-                if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "=":
+                if ptr + 1 < len(file_contents) and file_contents[ptr + 1] == "=":
                     char_name = "EQUAL_EQUAL"
                     i = "=="
                     ptr += 1  
                 else:
                     char_name = "EQUAL"
             elif i == "!":
-                if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "=":
+                if ptr + 1 < len(file_contents) and file_contents[ptr + 1] == "=":
                     char_name = "BANG_EQUAL"
                     i = "!="
                     ptr += 1  
                 else:
                     char_name = "BANG"
             elif i == "<":
-                if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "=":
+                if ptr + 1 < len(file_contents) and file_contents[ptr + 1] == "=":
                     char_name = "LESS_EQUAL"
                     i = "<="
                     ptr += 1  
                 else:
                     char_name = "LESS"
             elif i == ">":
-                if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "=":
+                if ptr + 1 < len(file_contents) and file_contents[ptr + 1] == "=":
                     char_name = "GREATER_EQUAL"
                     i = ">="
                     ptr += 1  
                 else:
                     char_name = "GREATER"
             elif i == "/":
-                if ptr < len(file_contents) - 1 and file_contents[ptr + 1] == "/":
+                if ptr + 1 < len(file_contents) and file_contents[ptr + 1] == "/":
                     ptr += 2  
                     while ptr < len(file_contents) and file_contents[ptr] != "\n":
                         ptr += 1
@@ -90,15 +99,8 @@ def main():
                     continue
                 else:
                     char_name = "SLASH"
-            elif i == "\n":
-                line_no += 1
-                ptr += 1  
-                continue
-            elif i.isspace():
-                ptr += 1
-                continue
             elif i == '"':
-                # String literal handling starts here
+                # String literal handling
                 start_ptr = ptr
                 ptr += 1  # Move past the opening quote
                 string_literal = []
@@ -119,6 +121,7 @@ def main():
                     ptr += 1  # Move past the closing quote
                 continue
             else:
+                # Report unexpected characters with line number
                 errs.append(f"[line {line_no}] Error: Unexpected character: {i}")
                 error = True
             
