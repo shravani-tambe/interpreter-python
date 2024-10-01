@@ -4,8 +4,8 @@
 
 This is a codebase for a python interpreter implemented with a lexer, tokenizer and parsing.
 
-If interested, do try out the "Build a Python Interpreter" challenge with codecrafters.io. 
-
+This project implementation follows the book
+[Crafting Interpreters](https://craftinginterpreters.com/) by Robert Nystrom.
 
 
 ## Acknowledgements
